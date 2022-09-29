@@ -1,0 +1,84 @@
+// ALGORITHM tableaux
+
+// VAR 
+// tab1 : ARRAY_OF INTEGER[a];
+// tab2 : ARRAY_OF INTEGER[b];
+// tab :ARRAY_OF INTEGER[a+b];
+// i,j,k,m,sumc,sumd: INTEGER:=0;
+// check : BOOLEAN;
+
+// BEGIN
+
+// read(a)
+// FOR i FROM 0 TO a-1 
+// read(tab1[i])
+// END_FOR
+
+// read(b)
+// FOR j FROM 0 TO b-1 
+// read(tab2[j])
+// END_FOR
+
+// tab:=concat(tab1,tab2);
+
+// FOR k FROM 0 TO tab.length-1 STEP 1 DO
+// check:=false;
+//     FOR m FROM 0 TO tab.length-1 STEP 1 DO
+//         IF (tab[k]=tab[m] and k<>m) THEN
+//         sumc:=sumc+tab[k];
+//         check:=true;
+//         break;
+//         END_IF
+//     END_FOR  
+// IF (check=false) THEN
+//         sumd:=sumd+tab[m]
+//     END_IF 
+// END_FOR
+// write("somme nombre commus",sumc)
+// write("somme nombre different",sumd)
+// END 
+
+
+
+ALGORITHM hashtab
+
+VAR
+tab1 : ARRAY_OF INTEGER[a];
+tab2: ARRAY_OF INTEGER[b];
+tab: ARRAY_OF INTEGER[a+b];
+hashtab:HASH_TABLE<INTEGER,INTEGER>;
+sumc,sumd,i,j:INTEGER:=0
+
+BEGIN
+
+read(a)
+FOR i FROM 0 TO a-1 
+read(tab1[i])
+END_FOR
+
+read(b)
+FOR j FROM 0 TO b-1 
+read(tab2[j])
+END_FOR
+
+tab:=concat(tab1,tab2);
+
+FOR i FROM 0 TO tab.length-1 DO
+    IF (hashtab.lookup(tab[i])=false) THEN
+        hashtab.insert(tab[i],1)
+    END_IF
+    ELSE  hashtab.insert(tab[i],hashtab.get(tab[i])+1)
+END_FOR
+FOR item in hashtab DO
+    IF (hashtab.get(item)=1) THEN
+        sumd=sumd+item;
+    END_IF
+    IF (hashtab.get(item)>1) THEN
+        sumc=sumc+(item*hashtab.get(item));
+    END_IF
+END_FOR
+
+write("somme nombre commus",sumc)
+write("somme nombre different",sumd)
+
+END
